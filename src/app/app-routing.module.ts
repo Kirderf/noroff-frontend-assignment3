@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginPageComponent } from './components/login-page/login-page.component';
-import { PokedexComponent } from './components/pokedex/pokedex.component';
-import { TrainerComponent } from './components/trainer/trainer.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { PokedexPageComponent } from './pokedex/pokedex-page.component';
+import { TrainerPageComponent } from './trainer/trainer-page.component';
 
 const routes: Routes = [
   
     {path: '', component: LoginPageComponent},
-    {path:'pokedex',component:PokedexComponent},
-    {path:'trainer',component:TrainerComponent},
+    {path:'pokedex',component:PokedexPageComponent},
+    {path:'trainer',component:TrainerPageComponent},
 ];
 
 @NgModule({
