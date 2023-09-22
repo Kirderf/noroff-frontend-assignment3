@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PokedexService } from '../../service/pokemon.service';
+import { PokedexService } from '../services/pokemon.service';
 import { Pokemon } from '../models/pokemon.models';
 
 @Component({
