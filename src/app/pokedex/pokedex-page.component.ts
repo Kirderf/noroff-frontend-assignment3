@@ -3,10 +3,10 @@ import { PokedexService } from '../../service/pokemon.service';
 import { Pokemon } from '../models/pokemon.models';
 
 @Component({
-  selector: 'app-pokedex',
-  templateUrl: './pokedex.component.html',
+  selector: 'app-pokedex-page',
+  templateUrl: './pokedex-page.component.html',
 })
-export class PokedexComponent {
+export class PokedexPageComponent {
   @Input()  pokemons: Pokemon[] = [];
   @Input() imageUrl: string = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon"
   constructor(private pokedexService: PokedexService) { }
