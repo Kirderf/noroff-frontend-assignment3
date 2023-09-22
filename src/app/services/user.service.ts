@@ -44,7 +44,7 @@ export class UserService {
   public login(username: string) {
    this.http.get<Array<User>>(environment.apiUrl + "/trainers?username=" + username)
    .subscribe((res) => {
-      if(res.length > 0) {
+      if(res[0]) {
         this.setUser(res[0]);
         this.router.navigate(['/pokedex']);
       }else{
@@ -55,11 +55,11 @@ export class UserService {
 
 
   public createUser(username: string) {
-    const user = {
+    const newUser = {
       username: username,
       pokemons: []
     };
-    this.http.post<User>(environment.apiUrl + "/trainers", user, this.httpOptions)
+    this.http.post<User>(environment.apiUrl + "/trainers", newUser, this.httpOptions)
       .subscribe((res) => {
         this.setUser(res);
         this.router.navigate(['/pokedex']);
