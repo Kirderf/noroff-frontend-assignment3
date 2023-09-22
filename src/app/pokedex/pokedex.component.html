@@ -1,1 +1,20 @@
-<p>pokedex works!</p>
+<div>
+    <div class="">
+        <!-- Title -->
+        <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
+          <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Gen 3</h2>
+        </div>
+        <!-- End Title -->
+      
+        <!-- Grid -->
+        <div class="flex flex-row flex-wrap">
+        <div *ngFor="let pokemon of pokemons">
+            <img class="rounded-lg w-20 h-20" src="{{imageUrl}}/{{pokemon.id}}.png" alt="Image Description">
+            <h3 class="font-medium text-gray-800 dark:text-gray-200">
+                {{pokemon.name}}
+            </h3>
+        </div>
+    </div>
+      </div>
+</div>
+
