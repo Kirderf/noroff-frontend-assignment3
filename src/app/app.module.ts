@@ -4,11 +4,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { TrainerComponent } from './trainer/trainer.component';
+import { PokedexComponent } from './pokedex/pokedex.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoginPageComponent,
+    TrainerComponent,
+    PokedexComponent
   ],
   imports: [
     BrowserModule,
