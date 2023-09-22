@@ -18,8 +18,6 @@ export class LoginPageComponent {
     this.userInput = event.target.value;
   }
 
-
-
   login(){
     console.log(this.userInput);
   }

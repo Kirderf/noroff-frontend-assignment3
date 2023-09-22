@@ -10,10 +10,15 @@
       type="text"
       class="h-20 py-3 px-24 block w-full focus:outline-none border-2 placeholder-grey border-white rounded-full text-2xl focus:border-grey bg-light-grey"
       placeholder="Username"
+      (change)="setUserName($event)"
+      (keydown.enter)="login()"
     />
 
     <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-      <button class="w-14 h-14 bg-purple rounded-full bg-yellow">
+      <button
+        class="w-14 h-14 bg-purple rounded-full bg-yellow"
+        (click)="login()"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="50"
