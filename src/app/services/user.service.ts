@@ -17,7 +17,6 @@ export class UserService {
     headers: new HttpHeaders({ 'X-API-KEY': environment.apiKey })
   };
 
-
   constructor(private readonly http: HttpClient, private router : Router) {
     this.userChange.subscribe((user: User) => {
       if (user.username){
@@ -26,21 +25,16 @@ export class UserService {
         localStorage.removeItem('user');
       }
     });
-
-
   }
-
 
   public getUser(): User | undefined {
     return this.user;
   }
 
-
   public setUser(user: User) {
     this.user = user;
     this.userChange.next(this.user);
   }
-
 
   public login(username: string) {
    this.http.get<Array<User>>(environment.apiUrl + "/trainers?username=" + username)
@@ -53,7 +47,6 @@ export class UserService {
       }
    });
   }
-
 
   public createUser(username: string) {
     const newUser = {
@@ -77,7 +70,6 @@ export class UserService {
         });
     }
   }
-
 
   public addPokemon(pokemonId: number) {
     const user = this.getUser();
