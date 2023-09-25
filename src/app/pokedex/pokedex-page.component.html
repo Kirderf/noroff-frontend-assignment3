@@ -5,7 +5,7 @@
           <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Gen 3</h2>
         </div>
         
-        <div class=" bg-yellow mx-24 rounded-xl overflow-auto max-h-[40em] mb-10">
+        <div class=" bg-yellow mx-24 rounded-xl overflow-auto max-h-[40em] mb-10 min-h-[40em]">
         <!-- Header -->
         <div class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
             <!-- Input -->
@@ -32,7 +32,7 @@
                     </svg>
                     Filter
                   </button>
-                  <div class="hs-dropdown-menu absolute {{filterHidden}} mt-2 divide-y divide-gray-200 min-w-[12rem] z-10 bg-white shadow-md rounded-lg mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700" aria-labelledby="hs-as-table-table-filter-dropdown">
+                  <div class="hs-dropdown-menu absolute {{filterHidden}} divide-y divide-gray-200 min-w-[12rem] z-10 bg-white shadow-md rounded-lg mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700" aria-labelledby="hs-as-table-table-filter-dropdown">
                     <div  class="divide-y divide-gray-200 dark:divide-gray-700">
                         <form >
                             <div *ngFor="let gen of genList">
