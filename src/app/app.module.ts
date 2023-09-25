@@ -8,6 +8,7 @@ import { TrainerPageComponent } from './trainer/trainer-page.component';
 import { PokedexPageComponent } from './pokedex/pokedex-page.component';
 import { HttpClientModule } from  '@angular/common/http';
 import { PokemonDisplayComponent } from './trainer/pokemon-display/pokemon-display/pokemon-display.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { PokemonDisplayComponent } from './trainer/pokemon-display/pokemon-displ
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule
   ],
