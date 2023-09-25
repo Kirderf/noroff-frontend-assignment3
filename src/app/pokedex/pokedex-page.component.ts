@@ -36,10 +36,7 @@ export class PokedexPageComponent implements OnInit {
     return options
   }
   ngOnInit() {
-
-    this.userService.addPokemon(1);
-
-    console.log(this.userService.getUser());  
+  
 
     this.pokedexService.graphqlGet(this.getOptions())
     .subscribe((res) =>{
