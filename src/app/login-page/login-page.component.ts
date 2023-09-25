@@ -1,14 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements OnInit {
 
 
 
-  constructor(){}
+  constructor(private readonly userService: UserService){}
+  
+  
+  ngOnInit(): void {
+    const localStorageUser = localStorage.getItem('user');
+    if(localStorageUser){
+      this.userService.login(localStorageUser);
+    }
+  }
 
   userInput:string = "";
  /*
@@ -19,7 +28,7 @@ export class LoginPageComponent {
   }
 
   login(){
-    console.log(this.userInput);
+    this.userService.login(this.userInput);
   }
 
 
