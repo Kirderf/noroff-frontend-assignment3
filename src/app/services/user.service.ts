@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { User } from '../models/user.models';
@@ -29,6 +29,7 @@ export class UserService {
 
 
   }
+
 
   public getUser(): User | undefined {
     return this.user;
@@ -64,6 +65,29 @@ export class UserService {
         this.setUser(res);
         this.router.navigate(['/pokedex']);
       });
+  }
+
+  public removePokemon(pokemonId: number) {
+    const user = this.getUser();
+    if (user) {
+      user.pokemons = user.pokemons?.filter(pokemon => Number(pokemon) !== pokemonId);
+      this.http.patch<User>(environment.apiUrl + "/trainers/" + user?.id, user, this.httpOptions)
+        .subscribe((res) => {
+          this.setUser(res);
+        });
+    }
+  }
+
+
+  public addPokemon(pokemonId: number) {
+    const user = this.getUser();
+    if (user) {
+      user.pokemons?.push(String(pokemonId));
+      this.http.patch<User>(environment.apiUrl + "/trainers/" + user?.id, user, this.httpOptions)
+      .subscribe((res) => {
+        this.setUser(res);
+      });
+    }
   }
 
 }
