@@ -19,21 +19,26 @@ export class PokedexComponent {
 
   selectedGen: string[] = []
   constructor(private pokedexService: PokedexService) { }
-  addQuotes(str: string){
-    return `"${str}"`
-  }
+
   public getOptions(): any{    
     const headers = {
       "content-type": "application/json"
     };
     let query =`
     query pokemon_details {
-      pokemons: pokemon_v2_pokemonspecies(where: {pokemon_v2_generation: {name: {{_in: ${this.selectedGen}}}}, order_by: {id: asc}) {
-        name
-        id
+        pokemons: pokemon_v2_pokemonspecies(where: {pokemon_v2_generation: {name: {_in: [<REPLACE>]}}}, order_by: {id: asc}) {
+          name
+          id
+        }
       }
-    }
     `
+    /*
+    {"operationName":"pokemon_details","query":"\n    query pokemon_details {\n        gen3_species: pokemon_v2_pokemonspecies(where: {pokemon_v2_generation: {name: {_in: generation-iii}}}, order_by: {id: asc}) {\n          name\n          id\n        }\n      }\n    ","variables":{}}
+    {"operationName":"pokemon_details","query":"\n    query pokemon_details {\n        gen3_species: pokemon_v2_pokemonspecies(where: {pokemon_v2_generation: {name: {_in: [\"generation-i\"]}}}, order_by: {id: asc}) {\n          name\n          id\n        }\n      }\n    ","variables":{}}
+    */
+    query = query.replace("<REPLACE>", this.selectedGen.toString())
+ 
+
     const graphqlQuery = {
       "operationName": "pokemon_details",
       "query": query,
@@ -44,13 +49,14 @@ export class PokedexComponent {
       "headers": headers,
       "body": JSON.stringify(graphqlQuery)
   };
+    console.log(options)
     return options
   }
   onFilterElementClick(gen: string){
     console.log(gen)
-    this.selectedGen.push(this.addQuotes(gen))
+    this.selectedGen.push(`\"generation-${gen}\"`)
     console.log(this.getOptions().body)
-   // this.updatePokemonList()
+    this.updatePokemonList()
   }
   onFilterClick(){
     if(this.filterHidden === "hidden"){
