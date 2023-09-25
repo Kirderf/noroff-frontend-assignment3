@@ -27,8 +27,8 @@ export class UserService {
     });
   }
 
-  public getUser(): User | undefined {
-    return this.user;
+  public getUser(): User {
+    return JSON.parse(localStorage.getItem('user') || '{}');
   }
 
   public setUser(user: User) {
@@ -79,14 +79,15 @@ export class UserService {
   }
 
   public addPokemon(pokemon: Pokemon) {
-    console.log(this.user);
-    if (this.user) {
+    const user = this.getUser();
+    console.log(user);
+    if (user) {
       console.log(pokemon);
-      this.user.pokemons?.push(pokemon);
+      user.pokemons?.push(pokemon);
       this.http
         .patch<User>(
-          environment.apiUrl + '/trainers/' + this.user?.id,
-          this.user,
+          environment.apiUrl + '/trainers/' + user?.id,
+          user,
           this.httpOptions
         )
         .subscribe((res) => {
