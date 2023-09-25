@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Pokemon } from 'src/app/models/pokemon.models';
 import { User } from 'src/app/models/user.models';
 import { UserService } from 'src/app/services/user.service';
 
@@ -10,18 +11,17 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class PokemonDisplayComponent implements OnInit {
 
-  @Input() user!: User;
-
+  @Input() pokemon: Pokemon[] = [];
 
   constructor(private readonly userService: UserService){
-    
+
   }
-
-
+  
   ngOnInit(): void {
     const user = this.userService.getUser();
-    if (user) {
-      this.user = user;
+
+    if(user && user.pokemons){
+      this.pokemon = user.pokemons.map(pokemonName => pokemonName);
     }
   }
 }

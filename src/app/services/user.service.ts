@@ -4,6 +4,7 @@ import { Subject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { User } from '../models/user.models';
 import { Router } from '@angular/router';
+import { Pokemon } from '../models/pokemon.models';
 
 @Injectable({
   providedIn: 'root'
@@ -71,10 +72,10 @@ export class UserService {
     }
   }
 
-  public addPokemon(pokemonId: number) {
+  public addPokemon(pokemon: Pokemon) {
     const user = this.getUser();
     if (user) {
-      user.pokemons?.push(String(pokemonId));
+      user.pokemons?.push(pokemon);
       this.http.patch<User>(environment.apiUrl + "/trainers/" + user?.id, user, this.httpOptions)
       .subscribe((res) => {
         this.setUser(res);
