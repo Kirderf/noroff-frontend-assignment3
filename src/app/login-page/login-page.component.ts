@@ -5,19 +5,12 @@ import { UserService } from '../services/user.service';
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent {
 
 
 
   constructor(private readonly userService: UserService){}
   
-  
-  ngOnInit(): void {
-    const localStorageUser = localStorage.getItem('user');
-    if(localStorageUser){
-      this.userService.login(localStorageUser);
-    }
-  }
 
   userInput:string = "";
  /*

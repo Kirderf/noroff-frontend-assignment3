@@ -1,15 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PokedexService } from '../services/pokemon.service';
 import { Pokemon } from '../models/pokemon.models';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-pokedex-page',
   templateUrl: './pokedex-page.component.html',
 })
-export class PokedexPageComponent {
+export class PokedexPageComponent implements OnInit {
   @Input()  pokemons: Pokemon[] = [];
   @Input() imageUrl: string = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon"
-  constructor(private pokedexService: PokedexService) { }
+  constructor(private pokedexService: PokedexService, private userService: UserService) { }
   public getOptions(): any{    
     const headers = {
       "content-type": "application/json"
@@ -35,6 +36,11 @@ export class PokedexPageComponent {
     return options
   }
   ngOnInit() {
+
+    this.userService.addPokemon(1);
+
+    console.log(this.userService.getUser());  
+
     this.pokedexService.graphqlGet(this.getOptions())
     .subscribe((res) =>{
       res: res.data.pokemons.map((p: Pokemon) => {
