@@ -1,27 +1,29 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Pokemon } from 'src/app/models/pokemon.models';
 import { User } from 'src/app/models/user.models';
 import { UserService } from 'src/app/services/user.service';
-
-
 
 @Component({
   selector: 'app-pokemon-display',
   templateUrl: './pokemon-display.component.html',
 })
 export class PokemonDisplayComponent implements OnInit {
+  userSub?: Subscription;
+  user?: User = this.userService.getUser();
 
-  @Input() pokemon: Pokemon[] = [];
+  constructor(private readonly userService: UserService) {}
 
-  constructor(private readonly userService: UserService){
-
-  }
-  
   ngOnInit(): void {
-    const user = this.userService.getUser();
+    this.userSub = this.userService.userChange.subscribe(
+      (newUser) => (this.user = newUser)
+    );
 
-    if(user && user.pokemons){
-      this.pokemon = user.pokemons.map(pokemonName => pokemonName);
+    if (!this.userService.getUser()) {
+      const localStorageUser = localStorage.getItem('user');
+      if (localStorageUser) {
+        this.userService.login(JSON.parse(localStorageUser).username);
+      }
     }
   }
 }

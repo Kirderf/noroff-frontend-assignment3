@@ -4,6 +4,7 @@
     alt=""
     class="w-20 h-20 object-fill"
   />
-  <h1 class="font-bold">Pokemon name</h1>
-  <h2></h2>
+  <div *ngFor="let pokemon of user?.pokemons">
+    <h1 class="font-bold">{{ pokemon.name }}</h1>
+  </div>
 </div>

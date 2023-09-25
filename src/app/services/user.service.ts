@@ -7,20 +7,19 @@ import { Router } from '@angular/router';
 import { Pokemon } from '../models/pokemon.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
   private user?: User;
   userChange = new Subject<User>();
 
   httpOptions = {
-    headers: new HttpHeaders({ 'X-API-KEY': environment.apiKey })
+    headers: new HttpHeaders({ 'X-API-KEY': environment.apiKey }),
   };
 
-  constructor(private readonly http: HttpClient, private router : Router) {
+  constructor(private readonly http: HttpClient, private router: Router) {
     this.userChange.subscribe((user: User) => {
-      if (user.username){
+      if (user.username) {
         localStorage.setItem('user', JSON.stringify(user));
       } else {
         localStorage.removeItem('user');
@@ -38,34 +37,41 @@ export class UserService {
   }
 
   public login(username: string) {
-   this.http.get<Array<User>>(environment.apiUrl + "/trainers?username=" + username)
-   .subscribe((res) => {
-      if(res[0]) {
-        this.setUser(res[0]);
-        this.router.navigate(['/pokedex']);
-      }else{
-        this.createUser(username);
-      }
-   });
+    this.http
+      .get<Array<User>>(environment.apiUrl + '/trainers?username=' + username)
+      .subscribe((res) => {
+        if (res[0]) {
+          this.setUser(res[0]);
+        } else {
+          this.createUser(username);
+        }
+      });
   }
 
   public createUser(username: string) {
     const newUser = {
       username: username,
-      pokemons: []
+      pokemons: [],
     };
-    this.http.post<User>(environment.apiUrl + "/trainers", newUser, this.httpOptions)
+    this.http
+      .post<User>(environment.apiUrl + '/trainers', newUser, this.httpOptions)
       .subscribe((res) => {
         this.setUser(res);
-        this.router.navigate(['/pokedex']);
       });
   }
 
   public removePokemon(pokemonId: number) {
     const user = this.getUser();
     if (user) {
-      user.pokemons = user.pokemons?.filter(pokemon => Number(pokemon) !== pokemonId);
-      this.http.patch<User>(environment.apiUrl + "/trainers/" + user?.id, user, this.httpOptions)
+      user.pokemons = user.pokemons?.filter(
+        (pokemon) => Number(pokemon) !== pokemonId
+      );
+      this.http
+        .patch<User>(
+          environment.apiUrl + '/trainers/' + user?.id,
+          user,
+          this.httpOptions
+        )
         .subscribe((res) => {
           this.setUser(res);
         });
@@ -73,13 +79,19 @@ export class UserService {
   }
 
   public addPokemon(pokemon: Pokemon) {
-    const user = this.getUser();
-    if (user) {
-      user.pokemons?.push(pokemon);
-      this.http.patch<User>(environment.apiUrl + "/trainers/" + user?.id, user, this.httpOptions)
-      .subscribe((res) => {
-        this.setUser(res);
-      });
+    console.log(this.user);
+    if (this.user) {
+      console.log(pokemon);
+      this.user.pokemons?.push(pokemon);
+      this.http
+        .patch<User>(
+          environment.apiUrl + '/trainers/' + this.user?.id,
+          this.user,
+          this.httpOptions
+        )
+        .subscribe((res) => {
+          this.setUser(res);
+        });
     }
   }
 
