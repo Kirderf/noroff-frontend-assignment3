@@ -8,6 +8,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { TrainerComponent } from './trainer/trainer.component';
 import { PokedexComponent } from './pokedex/pokedex.component';
 import { HttpClientModule } from  '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,10 +16,11 @@ import { HttpClientModule } from  '@angular/common/http';
     HeaderComponent,
     LoginPageComponent,
     TrainerComponent,
-    PokedexComponent
+    PokedexComponent,
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule
   ],
