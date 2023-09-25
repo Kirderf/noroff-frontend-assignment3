@@ -82,4 +82,8 @@ export class UserService {
     }
   }
 
+  public logOut() {
+    this.setUser({});
+    this.router.navigate(['']);
+  }
 }
