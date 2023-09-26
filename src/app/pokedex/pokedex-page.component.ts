@@ -93,7 +93,6 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
 
   addPokemon(pokemon: Pokemon) {
     this.userService.addPokemon(pokemon);
-    console.log(this.userService.getUser());
   }
 
   ngOnInit(): void {
