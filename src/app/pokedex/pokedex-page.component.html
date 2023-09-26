@@ -22,6 +22,7 @@
           >
           <div class="relative">
             <input
+              (keyup)="onSearchBarChange($event)"
               type="text"
               id="hs-as-table-product-review-search"
               name="hs-as-table-product-review-search"
@@ -107,7 +108,7 @@
       <!-- End Header -->
 
       <div class="flex flex-row flex-wrap gap-32 justify-center">
-        <div *ngFor="let pokemon of pokemons" class="h-52 pt-10">
+        <div *ngFor="let pokemon of pokemonsToDisplay" class="h-52 pt-10">
           <div class="bg-white">
             <div class="flex justify-end bg-pokedexImageBackground">
               <button
