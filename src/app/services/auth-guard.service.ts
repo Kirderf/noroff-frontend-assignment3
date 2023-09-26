@@ -1,5 +1,9 @@
-import { Injectable, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
+import { Injectable } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -10,14 +14,19 @@ export class AuthGuardService {
   constructor(private router: Router, private userService: UserService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.userService.getUser() || localStorage.getItem('user')) return true;
+    console.log(this.userService.getUser().username + 'authguard');
+    if (this.userService.getUser().username) {
+      return true;
+    }
     this.router.navigate(['']);
     return false;
   }
 
-  canActivateTeam: CanActivateFn =
-  (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-    return inject(AuthGuardService).canActivate(inject(this.userService.getUser), route.params['id']);
-  };
+  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    return this.canActivate(route, state);
+  }
 
+  canLoad() {
+    return this.userService.getUser().username ? true : false;
+  }
 }
