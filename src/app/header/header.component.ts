@@ -18,14 +18,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.user = this.userService.getUser();
     this.updateShowHeader();
     this.subscrition = this.userService.userChange.subscribe((user) => {
-      console.log('User changed:', user);
       this.user = user;
       this.updateShowHeader();
     });
   }
 
   private updateShowHeader(): void {
-    this.showHeader = !!localStorage.getItem('user') || !!this.user;
+    this.showHeader = !!localStorage.getItem('user');
   }
 
   ngOnDestroy(): void {
