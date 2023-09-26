@@ -103,7 +103,6 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // this.updatePokemonList()
-
     this.subscription = this.userService.userChange.subscribe(
       (newUser) => (this.user = newUser)
     );
@@ -114,6 +113,10 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
         this.userService.login(JSON.parse(localStorageUser).username);
       }
     }
+    this.genList.map((g)=> {
+      this.selectedGen.push(`\"generation-${g}\"`)
+    })
+    this.updatePokemonList()
   }
 
   ngOnDestroy(): void {
