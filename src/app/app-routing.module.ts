@@ -3,22 +3,20 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { PokedexPageComponent } from './pokedex/pokedex-page.component';
 import { TrainerPageComponent } from './trainer/trainer-page.component';
-import {
-  AuthGuardService,
-  canActivateTeam,
-} from './services/auth-guard.service';
+import { loginCanActivateTeam } from './services/loginguard.guard';
+import { authCanActivateTeam } from './services/auth-guard.service';
 
 const routes: Routes = [
-  { path: '', component: LoginPageComponent },
+  { path: '', component: LoginPageComponent , canActivate: [loginCanActivateTeam]},
   {
     path: 'pokedex',
     component: PokedexPageComponent,
-    canActivate: [canActivateTeam],
+    canActivate: [authCanActivateTeam],
   },
   {
     path: 'trainer',
     component: TrainerPageComponent,
-    canActivate: [canActivateTeam],
+    canActivate: [authCanActivateTeam],
   },
 ];
 
