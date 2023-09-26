@@ -15,28 +15,22 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
     private userService: UserService
   ) {}
 
-  @Input() pokemons: Pokemon[] = [];
-  @Input() imageUrl: string =
-    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
-  @Input() genList: string[] = [
-    'i',
-    'ii',
-    'iii',
-    'iv',
-    'v',
-    'vi',
-    'vii',
-    'ix',
-    'iix',
-  ];
-  //TODO add custom pair
-  @Input() filterHidden: string = 'hidden';
+  @Input()  pokemonsToDisplay: Pokemon[] = [];
+  @Input() imageUrl: string = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon"
+  @Input() genList: string[] = ["i", "ii", "iii", "iv", "v", "vi", "vii", "ix"]
+  //TODO add custom pair 
+  @Input() filterHidden: string = "hidden"
+
+  pokemons: Pokemon[] = []
+  selectedGen: string[] = []
 
   subscription?: Subscription;
   user?: User = this.userService.getUser();
 
-  selectedGen: string[] = [];
 
+  onSearchBarChange(event: any){
+    this.pokemonsToDisplay = this.pokemons.filter(p => p.name.includes(event.target.value.toString()))
+  }
   public getOptions(): any {
     const headers = {
       'content-type': 'application/json',
@@ -69,10 +63,18 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
     return options;
   }
   onFilterElementClick(gen: string) {
-    console.log(gen);
-    this.selectedGen.push(`\"generation-${gen}\"`);
-    console.log(this.getOptions().body);
-    this.updatePokemonList();
+    if(this.selectedGen.includes(`\"generation-${gen}\"`)){
+      this.selectedGen = this.selectedGen.filter((g) =>{
+        return g !== `\"generation-${gen}\"`
+      })
+    }else{
+      this.selectedGen.push(`\"generation-${gen}\"`)
+    }
+    if(this.selectedGen.length > 0) this.updatePokemonList()
+    else {
+      this.pokemonsToDisplay = []
+      this.pokemons = []
+    }  
   }
   onFilterClick() {
     if (this.filterHidden === 'hidden') {
@@ -82,13 +84,17 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
     }
   }
   updatePokemonList() {
-    this.pokedexService.graphqlGet(this.getOptions()).subscribe((res) => {
-      console.log(res);
+    let tempPokemon: Pokemon[] = []
+    this.pokedexService.graphqlGet(this.getOptions())
+    .subscribe((res) =>{
+
       res: res.data.pokemons.map((p: Pokemon) => {
-        this.pokemons.push(p);
+        tempPokemon.push(p)
       }),
-        (err: any) => console.log(err);
-    });
+        (	    err: any) => console.log(err)
+    })
+    this.pokemonsToDisplay = tempPokemon
+    this.pokemons = tempPokemon
   }
 
   addPokemon(pokemon: Pokemon) {
