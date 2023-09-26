@@ -5,30 +5,28 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuardService {
-  constructor(private userService: UserService) {}
 
   canActivate(): boolean {
-    if (localStorage.getItem('user')) return true;
-    return false;
+    if (localStorage.getItem('user') != null) return false;
+    return true;
   }
 }
 
-export const authCanActivateTeam: CanActivateFn = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+export const loginCanActivateTeam: CanActivateFn = (
+  _route: ActivatedRouteSnapshot,
+  _state: RouterStateSnapshot
 ) => {
   const guardService = inject(AuthGuardService);
   const canActivate = guardService.canActivate();
 
   if (!canActivate) {
     const router = inject(Router);
-    router.navigate(['']);
+    router.navigate(['/pokedex']);
   }
 
   return canActivate;
