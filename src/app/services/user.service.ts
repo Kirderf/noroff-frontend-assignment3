@@ -27,8 +27,11 @@ export class UserService {
     });
   }
 
-  public getUser(): User {
-    return JSON.parse(localStorage.getItem('user') || '{}');
+  public getUser(): User | undefined {
+    if (!this.user) {
+      this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    }
+    return this.user;
   }
 
   public setUser(user: User) {
@@ -62,6 +65,7 @@ export class UserService {
 
   public removePokemon(pokemonId: number) {
     console.log(pokemonId);
+    console.log(this.user);
     if (this.user) {
       this.user.pokemons = this.user.pokemons?.filter(
         (pokemon) => pokemon.id !== pokemonId
