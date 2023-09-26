@@ -15,14 +15,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
+    this.updateShowHeader();
     this.subscrition = this.userService.userChange.subscribe((user) => {
       this.user = user;
-      if (localStorage.getItem('user') || this.user) {
-        this.showHeader = true;
-      } else {
-        this.showHeader = false;
-      }
+      this.updateShowHeader();
     });
+  }
+
+  private updateShowHeader(): void {
+    this.showHeader = !!localStorage.getItem('user') || !!this.user;
   }
 
   ngOnDestroy(): void {
