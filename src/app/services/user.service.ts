@@ -61,15 +61,15 @@ export class UserService {
   }
 
   public removePokemon(pokemonId: number) {
-    const user = this.getUser();
-    if (user) {
-      user.pokemons = user.pokemons?.filter(
-        (pokemon) => Number(pokemon) !== pokemonId
+    console.log(pokemonId);
+    if (this.user) {
+      this.user.pokemons = this.user.pokemons?.filter(
+        (pokemon) => pokemon.id !== pokemonId
       );
       this.http
         .patch<User>(
-          environment.apiUrl + '/trainers/' + user?.id,
-          user,
+          environment.apiUrl + '/trainers/' + this.user?.id,
+          this.user,
           this.httpOptions
         )
         .subscribe((res) => {

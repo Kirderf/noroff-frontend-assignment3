@@ -4,14 +4,10 @@
   <h1 class="text-2xl text-black font-bold mt-10">Catched pokemons!</h1>
 
   <div class="flex gap-10 flex-wrap items-center justify-center m-10">
-    <app-pokemon-display></app-pokemon-display>
-    <app-pokemon-display></app-pokemon-display>
-    <app-pokemon-display></app-pokemon-display>
-    <app-pokemon-display></app-pokemon-display>
-    <app-pokemon-display></app-pokemon-display>
-    <app-pokemon-display></app-pokemon-display>
-    <app-pokemon-display></app-pokemon-display>
-    <app-pokemon-display></app-pokemon-display>
-    <app-pokemon-display></app-pokemon-display>
+    <app-pokemon-display
+      *ngFor="let pokemon of user?.pokemons"
+      [pokemon]="pokemon"
+      (pokemonDelete)="removePokemon($event)"
+    ></app-pokemon-display>
   </div>
 </div>

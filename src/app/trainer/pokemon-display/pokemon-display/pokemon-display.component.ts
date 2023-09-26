@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Pokemon } from 'src/app/models/pokemon.models';
 import { User } from 'src/app/models/user.models';
@@ -8,22 +8,15 @@ import { UserService } from 'src/app/services/user.service';
   selector: 'app-pokemon-display',
   templateUrl: './pokemon-display.component.html',
 })
-export class PokemonDisplayComponent implements OnInit {
-  userSub?: Subscription;
-  user?: User = this.userService.getUser();
+export class PokemonDisplayComponent {
+  @Input() pokemon?: Pokemon;
 
-  constructor(private readonly userService: UserService) {}
+  @Input() imageUrl: string =
+    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
 
-  ngOnInit(): void {
-    this.userSub = this.userService.userChange.subscribe(
-      (newUser) => (this.user = newUser)
-    );
+  @Output('pokemonDelete') onDelete: EventEmitter<number> = new EventEmitter();
 
-    if (!this.userService.getUser()) {
-      const localStorageUser = localStorage.getItem('user');
-      if (localStorageUser) {
-        this.userService.login(JSON.parse(localStorageUser).username);
-      }
-    }
+  public onPokemonDelete(): void {
+    this.onDelete.emit(this.pokemon?.id);
   }
 }

@@ -1,17 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { PokedexService } from '../services/pokemon.service';
 import { Pokemon } from '../models/pokemon.models';
 import { UserService } from '../services/user.service';
+import { Subscription } from 'rxjs';
+import { User } from '../models/user.models';
 
 @Component({
   selector: 'app-pokedex-page',
   templateUrl: './pokedex-page.component.html',
 })
-export class PokedexPageComponent implements OnInit {
+export class PokedexPageComponent implements OnInit, OnDestroy {
   constructor(
     private pokedexService: PokedexService,
     private userService: UserService
   ) {}
+
   @Input() pokemons: Pokemon[] = [];
   @Input() imageUrl: string =
     'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
@@ -28,6 +31,9 @@ export class PokedexPageComponent implements OnInit {
   ];
   //TODO add custom pair
   @Input() filterHidden: string = 'hidden';
+
+  subscription?: Subscription;
+  user?: User = this.userService.getUser();
 
   selectedGen: string[] = [];
 
@@ -86,11 +92,26 @@ export class PokedexPageComponent implements OnInit {
   }
 
   addPokemon(pokemon: Pokemon) {
-    console.log(pokemon);
     this.userService.addPokemon(pokemon);
+    console.log(this.userService.getUser());
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     // this.updatePokemonList()
+
+    this.subscription = this.userService.userChange.subscribe(
+      (newUser) => (this.user = newUser)
+    );
+
+    if (!this.userService.getUser()) {
+      const localStorageUser = localStorage.getItem('user');
+      if (localStorageUser) {
+        this.userService.login(JSON.parse(localStorageUser).username);
+      }
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
