@@ -1,0 +1,10 @@
+<div class="w-full bg-white h-auto p-16 flex flex-col items-center rounded-lg">
+  <img
+    src="../../../../assets/images/pokeball.webp"
+    alt=""
+    class="w-20 h-20 object-fill"
+  />
+  <div *ngFor="let pokemon of user?.pokemons">
+    <h1 class="font-bold">{{ pokemon.name }}</h1>
+  </div>
+</div>

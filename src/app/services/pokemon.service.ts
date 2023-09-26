@@ -16,6 +16,7 @@ export class PokedexService {
       },
       )
     }
+    console.log(options.body)
     return this.http.post<PokemonData>(this.endpoint, options.body, header)
   }
 }
