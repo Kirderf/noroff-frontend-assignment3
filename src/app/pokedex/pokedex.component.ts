@@ -28,10 +28,7 @@ export class PokedexComponent {
         }
       }
     `
-    /*
-    {"operationName":"pokemon_details","query":"\n    query pokemon_details {\n        gen3_species: pokemon_v2_pokemonspecies(where: {pokemon_v2_generation: {name: {_in: generation-iii}}}, order_by: {id: asc}) {\n          name\n          id\n        }\n      }\n    ","variables":{}}
-    {"operationName":"pokemon_details","query":"\n    query pokemon_details {\n        gen3_species: pokemon_v2_pokemonspecies(where: {pokemon_v2_generation: {name: {_in: [\"generation-i\"]}}}, order_by: {id: asc}) {\n          name\n          id\n        }\n      }\n    ","variables":{}}
-    */
+
     query = query.replace("<REPLACE>", this.selectedGen.toString())
  
 
@@ -75,7 +72,7 @@ export class PokedexComponent {
   updatePokemonList(){
     let tempPokemon: Pokemon[] = []
     this.pokedexService.graphqlGet(this.getOptions())
-    .subscribe((res) =>{
+    .subscribe((res: { data: { pokemons: Pokemon[]; }; }) =>{
 
       res: res.data.pokemons.map((p: Pokemon) => {
         tempPokemon.push(p)
