@@ -45,6 +45,7 @@ export class UserService {
       .subscribe((res) => {
         if (res[0]) {
           this.setUser(res[0]);
+          this.router.navigateByUrl('/pokedex');
         } else {
           this.createUser(username);
         }

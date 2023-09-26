@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
+  CanActivate,
   CanActivateFn,
   Router,
   RouterStateSnapshot,
@@ -10,22 +11,15 @@ import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuardService {
-  constructor(private router: Router, private userService: UserService) {}
+export class AuthGuardService implements CanActivate {
+  constructor(private userService: UserService, private router: Router) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.userService.getUser() || localStorage.getItem('user')) return true;
-    this.router.navigateByUrl('/');
-    return false;
-  }
-
-  canActivateTeam: CanActivateFn = (
+  canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ) => {
-    return inject(AuthGuardService).canActivate(
-      inject(this.userService.getUser),
-      route.params['id']
-    );
-  };
+  ): boolean {
+    if (localStorage.getItem('user')) return true;
+    this.router.navigate(['']);
+    return false;
+  }
 }

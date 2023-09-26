@@ -6,14 +6,21 @@ import { TrainerPageComponent } from './trainer/trainer-page.component';
 import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
-  
-    {path: '', component: LoginPageComponent},
-    {path:'pokedex',component:PokedexPageComponent, canActivate: [AuthGuardService]},
-    {path:'trainer',component:TrainerPageComponent, canActivate: [AuthGuardService]},
+  { path: '', component: LoginPageComponent },
+  {
+    path: 'pokedex',
+    component: PokedexPageComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'trainer',
+    component: TrainerPageComponent,
+    canActivate: [AuthGuardService],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
