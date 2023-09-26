@@ -11,15 +11,26 @@ import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuardService implements CanActivate {
-  constructor(private userService: UserService, private router: Router) {}
+export class AuthGuardService {
+  constructor(private userService: UserService) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean {
+  canActivate(): boolean {
     if (localStorage.getItem('user')) return true;
-    this.router.navigate(['']);
     return false;
   }
 }
+
+export const canActivateTeam: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const guardService = inject(AuthGuardService);
+  const canActivate = guardService.canActivate();
+
+  if (!canActivate) {
+    const router = inject(Router);
+    router.navigate(['']);
+  }
+
+  return canActivate;
+};
