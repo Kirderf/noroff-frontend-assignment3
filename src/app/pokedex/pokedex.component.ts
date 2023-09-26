@@ -1,22 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PokedexService } from '../../service/pokemon.service';
-import { Pokemon } from '../models/pokemon.models';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { query } from '@angular/animations';
-interface FormData {
-  getAll(): string[]
-}
+import { Pokemon, PokemonData } from '../models/pokemon.models';
 @Component({
   selector: 'app-pokedex',
   templateUrl: './pokedex.component.html',
 })
 export class PokedexComponent {
-  @Input()  pokemons: Pokemon[] = [];
+  @Input()  pokemonsToDisplay: Pokemon[] = [];
   @Input() imageUrl: string = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon"
-  @Input() genList: string[] = ["i", "ii", "iii", "iv", "v", "vi", "vii", "ix", "iix"]
+  @Input() genList: string[] = ["i", "ii", "iii", "iv", "v", "vi", "vii", "ix"]
   //TODO add custom pair 
   @Input() filterHidden: string = "hidden"
 
+  pokemons: Pokemon[] = []
   selectedGen: string[] = []
   constructor(private pokedexService: PokedexService) { }
 
@@ -32,10 +28,7 @@ export class PokedexComponent {
         }
       }
     `
-    /*
-    {"operationName":"pokemon_details","query":"\n    query pokemon_details {\n        gen3_species: pokemon_v2_pokemonspecies(where: {pokemon_v2_generation: {name: {_in: generation-iii}}}, order_by: {id: asc}) {\n          name\n          id\n        }\n      }\n    ","variables":{}}
-    {"operationName":"pokemon_details","query":"\n    query pokemon_details {\n        gen3_species: pokemon_v2_pokemonspecies(where: {pokemon_v2_generation: {name: {_in: [\"generation-i\"]}}}, order_by: {id: asc}) {\n          name\n          id\n        }\n      }\n    ","variables":{}}
-    */
+
     query = query.replace("<REPLACE>", this.selectedGen.toString())
  
 
@@ -49,15 +42,26 @@ export class PokedexComponent {
       "headers": headers,
       "body": JSON.stringify(graphqlQuery)
   };
-    console.log(options)
     return options
   }
-  onFilterElementClick(gen: string){
-    console.log(gen)
-    this.selectedGen.push(`\"generation-${gen}\"`)
-    console.log(this.getOptions().body)
-    this.updatePokemonList()
+  onSearchBarChange(event: any){
+    this.pokemonsToDisplay = this.pokemons.filter(p => p.name.includes(event.target.value.toString()))
   }
+  onFilterElementClick(gen: string){
+    if(this.selectedGen.includes(`\"generation-${gen}\"`)){
+      this.selectedGen = this.selectedGen.filter((g) =>{
+        return g !== `\"generation-${gen}\"`
+      })
+    }else{
+      this.selectedGen.push(`\"generation-${gen}\"`)
+    }
+    if(this.selectedGen.length > 0) this.updatePokemonList()
+    else {
+      this.pokemonsToDisplay = []
+      this.pokemons = []
+    }  
+  }
+ 
   onFilterClick(){
     if(this.filterHidden === "hidden"){
       this.filterHidden = "display"
@@ -66,14 +70,17 @@ export class PokedexComponent {
     }
   }
   updatePokemonList(){
+    let tempPokemon: Pokemon[] = []
     this.pokedexService.graphqlGet(this.getOptions())
-    .subscribe((res) =>{
-      console.log(res)
+    .subscribe((res: { data: { pokemons: Pokemon[]; }; }) =>{
+
       res: res.data.pokemons.map((p: Pokemon) => {
-        this.pokemons.push(p)
+        tempPokemon.push(p)
       }),
         (	    err: any) => console.log(err)
     })
+    this.pokemonsToDisplay = tempPokemon
+    this.pokemons = tempPokemon
   }
   ngOnInit() {
    // this.updatePokemonList()

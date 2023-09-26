@@ -1,0 +1,24 @@
+<div
+  class="w-[15rem] bg-white p-16 flex flex-col items-center rounded-lg relative h-[15rem]"
+>
+  <img
+    src="{{ imageUrl }}/{{ pokemon?.id }}.png"
+    alt=""
+    class="w-52 h-52 object-fill"
+  />
+  <div>
+    <h1 class="font-bold">{{ pokemon?.name }}</h1>
+  </div>
+  <svg
+    (click)="onPokemonDelete()"
+    class="absolute top-2 right-2 w-6 h-6 dark:text-gray-200 cursor-pointer"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M3 6v18h18v-18h-18zm5 14c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm4-18v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.315c0 .901.73 2 1.631 2h5.712z"
+    />
+  </svg>
+</div>
