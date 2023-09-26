@@ -11,21 +11,25 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class AuthGuardService {
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private userService: UserService) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.userService.getUser() || localStorage.getItem('user')) return true;
-    this.router.navigateByUrl('/');
+  canActivate(): boolean {
+    if (localStorage.getItem('user')) return true;
     return false;
   }
-
-  canActivateTeam: CanActivateFn = (
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ) => {
-    return inject(AuthGuardService).canActivate(
-      inject(this.userService.getUser),
-      route.params['id']
-    );
-  };
 }
+
+export const canActivateTeam: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const guardService = inject(AuthGuardService);
+  const canActivate = guardService.canActivate();
+
+  if (!canActivate) {
+    const router = inject(Router);
+    router.navigate(['']);
+  }
+
+  return canActivate;
+};
