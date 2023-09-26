@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { User } from '../models/user.models';
 import { Router } from '@angular/router';
@@ -12,13 +12,14 @@ import { Pokemon } from '../models/pokemon.models';
 export class UserService {
   private user?: User;
   userChange = new Subject<User>();
+  private changeSubcription?: Subscription;
 
   httpOptions = {
     headers: new HttpHeaders({ 'X-API-KEY': environment.apiKey }),
   };
 
   constructor(private readonly http: HttpClient, private router: Router) {
-    this.userChange.subscribe((user: User) => {
+    this.changeSubcription = this.userChange.subscribe((user: User) => {
       if (user.username) {
         localStorage.setItem('user', JSON.stringify(user));
       } else {
