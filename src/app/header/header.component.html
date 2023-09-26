@@ -5,14 +5,25 @@
     class="max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between"
     aria-label="Global"
   >
-    <a class="flex-none text-xl font-semibold dark:text-white" href="#"
+    <a class="flex-none text-xl font-semibold dark:text-white" href="/pokedex"
       ><img src="../assets/images/pokemonlogo.png" class="w-[15rem]" alt=""
     /></a>
 
-    <span
-      class="inline-flex items-center justify-center h-[3.875rem] w-[3.875rem] rounded-full bg-gray-600"
-    >
-      <span class="text-lg font-medium text-white leading-none">AC</span>
-    </span>
+    <div class="flex items-center justify-center gap-10">
+      <a href="/trainer">
+        <span
+          class="inline-flex items-center justify-center h-[3.875rem] w-[3.875rem] rounded-full bg-white shadow-sm"
+        >
+          <span class="text-lg font-medium text-black leading-none">AC</span>
+        </span>
+      </a>
+      <div>
+        <img
+          src="../../assets/images/logout.svg"
+          (click)="logOut()"
+          class="w-[2rem]"
+        />
+      </div>
+    </div>
   </nav>
 </header>
