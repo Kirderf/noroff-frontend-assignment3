@@ -1,14 +1,16 @@
-<div class="h-[20rem] bg-yellow flex justify-center items-end">
+<div
+  class="flex flex-col justify-center items-center bg-yellow my-20 rounded-2xl mx-40 shadow-lg border-red-400 border-2"
+>
+  <h1 class="text-black text-3xl font-bold mt-10">Login</h1>
   <div class="max-w-2xl w-full relative m-14">
     <img
       src="../../assets/images/pokeball.webp"
       class="absolute inset-y-5 left-4 flex items-center pl-3 h-auto w-[60px]"
       alt=""
     />
-
     <input
       type="text"
-      class="h-20 py-3 px-24 block w-full focus:outline-none border-2 placeholder-grey border-white rounded-full text-2xl focus:border-grey bg-light-grey"
+      class="h-20 py-3 px-24 block w-full focus:outline-none border-2 placeholder-grey border-white rounded-full text-2xl focus:border-grey bg-light-grey shadow-lg"
       placeholder="Username"
       (change)="setUserName($event)"
     />
