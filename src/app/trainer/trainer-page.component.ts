@@ -31,6 +31,7 @@ export class TrainerPageComponent implements OnInit, OnDestroy {
   }
 
   public removePokemon(pokemonId: number): void {
+    alert('Are you sure you want to remove this pokemon?');
     this.userService.removePokemon(pokemonId);
   }
 }
