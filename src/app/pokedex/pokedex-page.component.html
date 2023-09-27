@@ -99,10 +99,10 @@
     </div>
     <!-- End Header -->
 
-    <div class="flex flex-row flex-wrap gap-32 justify-center">
-      <div *ngFor="let pokemon of pokemonsToDisplay" class="h-52 pt-10">
+    <div class="flex flex-row flex-wrap gap-20 justify-center pt-10">
+      <div *ngFor="let pokemon of pokemonsToDisplay">
         <div class="bg-white rounded-lg p-1">
-          <div class="flex justify-end bg-pokedexImageBackground rounded-lg">
+          <div class="flex justify-end bg-pokedexImageBackground rounded-t-lg">
             <button
               (click)="addPokemon(pokemon)"
               title="Add Pokemon"
