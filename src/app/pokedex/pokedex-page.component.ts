@@ -15,7 +15,7 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
     private userService: UserService
   ) {}
 
-  @Input()  pokemonsToDisplay: Pokemon[] = [{name: "gard", id: 400}, {name: "gard", id: 2}, {name: "gard", id: 3}];
+  @Input()  pokemonsToDisplay: Pokemon[] = [];
   @Input() imageUrl: string = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon"
   @Input() genList: string[] = ["i", "ii", "iii", "iv", "v", "vi", "vii", "ix"]
   //TODO add custom pair 
@@ -124,10 +124,10 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
         this.userService.login(JSON.parse(localStorageUser).username);
       }
     }
-     /*this.genList.map((g)=> {
+     this.genList.map((g)=> {
       this.selectedGen.push(`\"generation-${g}\"`)
     }) 
-    this.updatePokemonList() */
+    this.updatePokemonList() 
   }
 
   ngOnDestroy(): void {
