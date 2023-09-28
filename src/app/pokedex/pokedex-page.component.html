@@ -99,38 +99,43 @@
     </div>
     <!-- End Header -->
 
-    <div class="flex flex-row flex-wrap gap-20 justify-center pt-10">
-      <div *ngFor="let pokemon of pokemonsToDisplay">
-        <div class="bg-white rounded-lg p-1">
-          <div class="flex justify-end bg-pokedexImageBackground rounded-t-lg">
-            <button
-              (click)="addPokemon(pokemon)"
-              title="Add Pokemon"
-              class="relative justify-items-end"
-            >
-              <img
-                src="./assets/images/addPokemon.png"
-                alt="{{ pokemon.name }}"
-                class="h-10"
-                loading="lazy"
-              />
+      <div class="flex flex-row flex-wrap gap-32 justify-center mx-10" >
+        <div *ngFor="let pokemon of pokemonsToDisplay" class="h-52 pt-10">
+          <div class="bg-white">
+            <div class="flex justify-end bg-pokedexImageBackground">
+              <button
+                (click)="addPokemon(pokemon)"
+                title="Add Pokemon"
+                class="relative justify-items-end"
+              >
+                
+                <img  src="./assets/images/addPokemon.png" alt="{{pokemon.name}}" class="h-10" loading="lazy" />
+              </button>
+            </div>
+            <button data-modal-target="defaultModal" data-modal-toggle="defaultModal" (click)="onPokemonImageClick(pokemon)">
+            <img
+              class="h-44 bg-pokedexImageBackground mt-0"
+              src="{{ imageUrl }}/{{ pokemon.id }}.png"
+              alt="Image Description"
+            />
             </button>
-          </div>
-          <img
-            class="h-44 bg-pokedexImageBackground mt-0"
-            src="{{ imageUrl }}/{{ pokemon.id }}.png"
-            alt="Image Description"
-          />
-          <div class="pb-3">
-            <p>#{{ pokemon.id }}</p>
-            <h3
-              class="font-medium text-gray-800 dark:text-gray-200 text-3xl pl-4"
-            >
-              {{ pokemon.name }}
-            </h3>
+            <div class="pb-3">
+              <p>#{{ pokemon.id }}</p>
+              <h3
+                class="font-medium text-gray-800 dark:text-gray-200 text-3xl pl-4"
+              >
+                {{ pokemon.name }}
+              </h3>
+            </div>
           </div>
         </div>
       </div>
+      <!-- MODAL  -->
+      <dialog (click)="onDialogClick($event)" #dialog class="bg-[url(./assets/images/Box_Forest_FRLG.png)] bg-no-repeat bg-cover absolute  z-[100] backdrop:bg-[ hsl(250, 100%, 50%, 0.25)] border-solid border-black border-4">
+        <div class="mb-10 mr-10 ">
+          <app-pokemon-details [selectedPokemon]=pokemonToShowInfo></app-pokemon-details>
+        </div>
+      </dialog>
+      <!-- END MOAL -->
     </div>
-  </div>
 </div>

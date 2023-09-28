@@ -10,8 +10,8 @@ import { of } from 'rxjs/internal/observable/of';
 })
 export class PokedexService {
   private readonly endpoint = "https://beta.pokeapi.co/graphql/v1beta";
-  private observableCache: { [key: string]: Observable<PokemonData> } = {};
-  private clubCache: { [key: string]: PokemonData } = {};
+  private observablePokemonCache: { [key: string]: Observable<PokemonData> } = {};
+  private pokemonCache: { [key: string]: PokemonData } = {};
   
   constructor(private http: HttpClient) { }
 
@@ -23,20 +23,17 @@ export class PokedexService {
       )
     }
     // Data available
-    if (this.clubCache[options.body]){
-      console.log("hente fra cache")
-      return of(this.clubCache[options.body]);}
+    if (this.pokemonCache[options.body]){
+      return of(this.pokemonCache[options.body]);}
     // Request pending
-    else if (this.observableCache[options.body]){
-      console.log("hente pending fra cache")
-      return this.observableCache[options.body];
+    else if (this.observablePokemonCache[options.body]){
+      return this.observablePokemonCache[options.body];
       }
     // New request needed
     else {
-      console.log("hente fra api")
-      this.observableCache[options.body] = this.http.post<PokemonData>(this.endpoint, options.body, header)
+      this.observablePokemonCache[options.body] = this.http.post<PokemonData>(this.endpoint, options.body, header)
     }
 
-    return this.observableCache[options.body];
+    return this.observablePokemonCache[options.body];
   }
 }

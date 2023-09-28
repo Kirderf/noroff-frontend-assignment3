@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PokedexService } from '../services/pokemon.service';
 import { Pokemon } from '../models/pokemon.models';
 import { UserService } from '../services/user.service';
@@ -21,13 +21,28 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
   //TODO add custom pair 
   @Input() filterHidden: string = "hidden"
 
+  @ViewChild('dialog') dialog!: ElementRef
   pokemons: Pokemon[] = []
   selectedGen: string[] = []
-
+  pokemonToShowInfo!: Pokemon; 
   subscription?: Subscription;
   user?: User = this.userService.getUser();
 
-
+  onDialogClick(e: any) {
+    const dialogDimensions = this.dialog.nativeElement.getBoundingClientRect()
+    if (
+      e.clientX < dialogDimensions.left ||
+      e.clientX > dialogDimensions.right ||
+      e.clientY < dialogDimensions.top ||
+      e.clientY > dialogDimensions.bottom
+    ) {
+      this.dialog.nativeElement.close()
+    }
+  }
+  onPokemonImageClick(p: Pokemon) {
+    this.pokemonToShowInfo = p
+    this.dialog.nativeElement.showModal()
+  }
   onSearchBarChange(event: any){
     this.pokemonsToDisplay = this.pokemons.filter(p => p.name.includes(event.target.value.toString()))
   }
@@ -43,10 +58,6 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
         }
       }
     `;
-    /*
-    {"operationName":"pokemon_details","query":"\n    query pokemon_details {\n        gen3_species: pokemon_v2_pokemonspecies(where: {pokemon_v2_generation: {name: {_in: generation-iii}}}, order_by: {id: asc}) {\n          name\n          id\n        }\n      }\n    ","variables":{}}
-    {"operationName":"pokemon_details","query":"\n    query pokemon_details {\n        gen3_species: pokemon_v2_pokemonspecies(where: {pokemon_v2_generation: {name: {_in: [\"generation-i\"]}}}, order_by: {id: asc}) {\n          name\n          id\n        }\n      }\n    ","variables":{}}
-    */
     query = query.replace('<REPLACE>', this.selectedGen.toString());
 
     const graphqlQuery = {
@@ -59,9 +70,9 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
       headers: headers,
       body: JSON.stringify(graphqlQuery),
     };
-    console.log(options);
     return options;
   }
+  
   onFilterElementClick(gen: string) {
     if(this.selectedGen.includes(`\"generation-${gen}\"`)){
       this.selectedGen = this.selectedGen.filter((g) =>{
@@ -113,10 +124,10 @@ export class PokedexPageComponent implements OnInit, OnDestroy {
         this.userService.login(JSON.parse(localStorageUser).username);
       }
     }
-    this.genList.map((g)=> {
+     this.genList.map((g)=> {
       this.selectedGen.push(`\"generation-${g}\"`)
-    })
-    this.updatePokemonList()
+    }) 
+    this.updatePokemonList() 
   }
 
   ngOnDestroy(): void {
