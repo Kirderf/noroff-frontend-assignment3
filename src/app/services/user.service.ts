@@ -62,6 +62,7 @@ export class UserService {
       .post<User>(environment.apiUrl + '/trainers', newUser, this.httpOptions)
       .subscribe((res) => {
         this.setUser(res);
+        this.router.navigateByUrl('/pokedex');
       });
   }
 
