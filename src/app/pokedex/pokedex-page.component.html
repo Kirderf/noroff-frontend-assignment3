@@ -109,14 +109,17 @@
                 title="Add Pokemon"
                 class="relative justify-items-end"
               >
-                <img src="./assets/images/addPokemon.png" alt="{{pokemon.name}}" class="h-10" loading="lazy" />
+                
+                <img  src="./assets/images/addPokemon.png" alt="{{pokemon.name}}" class="h-10" loading="lazy" />
               </button>
             </div>
+            <button data-modal-target="defaultModal" data-modal-toggle="defaultModal" (click)="onPokemonImageClick(pokemon)">
             <img
               class="h-44 bg-pokedexImageBackground mt-0"
               src="{{ imageUrl }}/{{ pokemon.id }}.png"
               alt="Image Description"
             />
+            </button>
             <div class="pb-3">
               <p>#{{ pokemon.id }}</p>
               <h3
@@ -128,5 +131,12 @@
           </div>
         </div>
       </div>
+      <!-- MODAL  -->
+      <dialog (click)="onDialogClick($event)" #dialog class="bg-[url(./assets/images/Box_Forest_FRLG.png)] bg-no-repeat bg-cover absolute  z-[100] backdrop:bg-[ hsl(250, 100%, 50%, 0.25)] border-solid border-black border-4">
+        <div class="mb-10 mr-10 ">
+          <app-pokemon-details [selectedPokemon]=pokemonToShowInfo></app-pokemon-details>
+        </div>
+      </dialog>
+      <!-- END MOAL -->
     </div>
 </div>

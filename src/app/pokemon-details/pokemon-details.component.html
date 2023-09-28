@@ -1,0 +1,21 @@
+<div class="">
+    <div *ngIf="pokemonData.id">
+        <div class="flex w-full h-full flex-row">
+            <div class="h-full">
+                <img class="h-[15em]" src="{{imgUrl}}/{{pokemonData.id}}.png">
+                <div class="flex gap-5 pl-10">
+                    <ul *ngFor="let type of pokemonData.pokemontypes">
+                        <li class="{{type}} px-3 py-2 rounded-3xl capitalize"> {{type}} </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-10 ">
+                <h2 class="text-2xl capitalize">{{pokemonData.name}}</h2>
+                <div>
+                    <p>ID: {{pokemonData.id}}</p>
+                    <p>Habitat: {{pokemonData.pokemonhabitat}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
